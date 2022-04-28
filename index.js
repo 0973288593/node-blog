@@ -75,6 +75,6 @@ if (port == null || port == "") {
    port = 4000;
 }
 
-app.listen(4000, () => {
+app.listen(port, () => {
    console.log('App listening on part 4000') 
 })
