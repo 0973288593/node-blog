@@ -18,6 +18,11 @@ const loginController = require('./controllers/login');
 const loginUserController = require('./controllers/loginuser');
 const logoutController = require('./controllers/logout');
 
+// Add new feature
+const myPostController = require ('./controllers/myPostControllers');
+const editPostController = require ('./controllers/editPostController');
+const updatePostController = require ('./controllers/updatePostController');
+const deletePostController = require ('./controllers/deletePostController');
 //Middleware 
 const authMiddleware = require('./middleware/authMiddleware');
 const redirectIfAuthenticatedMiddleware = require('./middleware/redirectIfAuthenticatedMiddleware');
@@ -26,8 +31,8 @@ const fileupload = require('express-fileupload')
 
 
 //customidleware
-
-mongoose.connect('mongodb+srv://yoyopop009:1234@cluster0.mw34a.mongodb.net/my_database', { useNewUrlParser: true});
+//mongodb+srv://yoyopop009:1234@cluster0.mw34a.mongodb.net/my_database
+mongoose.connect('mongodb://localhost:27017/my_database', { useNewUrlParser: true});
 app.set('view engine', 'ejs');
 
 app.use(express.static('public'));
@@ -54,8 +59,16 @@ app.get('/', homeController);
 app.get('/auth/register',redirectIfAuthenticatedMiddleware, newUserController);
 //Login user
 app.get('/auth/login',redirectIfAuthenticatedMiddleware, loginController);
+//Update user
+app.post('/posts/update',authMiddleware, updatePostController);
+//delete user
+app.get('/posts/delete/:id',authMiddleware, deletePostController);
 //LogOUT user
 app.get('/auth/logout', logoutController);
+//View my own post
+app.get('/posts/mypost', authMiddleware, myPostController);
+//Edit Post
+app.get('/posts/edit/:id', authMiddleware, editPostController);
 
 app.get('/post/:id',getPostController);
 // NEW POST
